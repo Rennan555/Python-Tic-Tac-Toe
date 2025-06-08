@@ -7,6 +7,12 @@ class Table:
     def __str__(self) -> str:
         return str(self.spaces)
     
+    def check_playable_condition(self) -> bool:
+        for i in range(3):
+            for j in range(3):
+                if self.spaces[i][j] == None: return True
+        return False
+    
     def check_rows(self) -> bool:        
         for i in range(3):
             if self.spaces[i][0] == None: pass
@@ -40,7 +46,7 @@ class Table:
 # Test cases
 if __name__ == '__main__':
     t = Table()
-    op = 7
+    op = 2
     match op:
         case 0:
             t.spaces[0][0] = t.O_ICON
@@ -58,9 +64,14 @@ if __name__ == '__main__':
             t.spaces[0][2] = t.O_ICON
             t.spaces[1][1] = t.O_ICON
             t.spaces[2][0] = t.O_ICON
+        case 4:
+            for i in range(3):
+                for j in range(3):
+                    t.spaces[i][j] = t.O_ICON
         case _:
             t.spaces[0][0] = t.O_ICON
             t.spaces[1][1] = t.O_ICON
             t.spaces[0][2] = t.O_ICON
     print(f'Table: {t}')
     print(f'Victory: {t.check_victory_condition()}')
+    print(f'Playable: {t.check_playable_condition()}')
