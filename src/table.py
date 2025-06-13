@@ -69,22 +69,24 @@ class Table:
         '''
         Check if there is a win (all conditions)
         '''
+        winner = 'Winner player: '
         for i in range(3):
-            if self.check_rows(): return self.spaces[i][0] # Horizontal check
-            if self.check_columns(): return self.spaces[0][i] # Vertical check
-        if self.check_diagonal_down(): return self.spaces[0][0] # Diagonal down check
-        elif self.check_diagonal_up(): return self.spaces[0][2] # Diagonal up check
-        else: return None # Game continues / Draw
+            if self.check_rows(): return winner + str(self.spaces[i][0]) # Horizontal check
+            if self.check_columns(): return winner + str(self.spaces[0][i])# Vertical check
+        if self.check_diagonal_down(): return winner + str(self.spaces[0][0]) # Diagonal down check
+        elif self.check_diagonal_up(): return winner + str(self.spaces[0][2]) # Diagonal up check
+        elif self.check_playable_condition(): return None # Game continues
+        else: return 'Draw'
 
 # Test cases
 if __name__ == '__main__':
     t = Table()
-    op = 2
+    op = 0
     match op:
         case 0: # Horizontal win
-            t.spaces[0][0] = t.O_ICON
-            t.spaces[0][1] = t.O_ICON
-            t.spaces[0][2] = t.O_ICON
+            t.spaces[2][0] = t.O_ICON
+            t.spaces[2][1] = t.O_ICON
+            t.spaces[2][2] = t.O_ICON
         case 1: # Vertical win
             t.spaces[0][0] = t.O_ICON
             t.spaces[1][0] = t.O_ICON
@@ -108,5 +110,4 @@ if __name__ == '__main__':
     t.play(1, 0)
     print(f'Table: {t}')
     print(f'Player: {t.CURRENT_PLAYER}')
-    print(f'Victory: {t.check_victory_condition()}')
-    print(f'Playable: {t.check_playable_condition()}')
+    print(f'{t.check_victory_condition()}')
