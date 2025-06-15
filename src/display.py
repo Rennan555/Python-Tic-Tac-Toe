@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox as mb
-from table import Table
+from src.table import Table
 
 class Display:
     def __init__(self, table: Table):
@@ -35,10 +35,11 @@ class Display:
         self.buttons[row][col].config(text=self.table.spaces[row][col])
         temp = self.table.check_victory_condition()
         print('table: ', self.table)
-        print(f'temp: {temp}')
-        print('victory condition: ', self.table.check_victory_condition())
+        print(f'victory condition: {temp}')
         print('playable condition: ', self.table.check_playable_condition())
-        if temp is not None: mb.showinfo(title='Game Over', message=f'{temp}')
+        if temp is not None:
+            mb.showinfo(title='Game Over', message=f'{temp}')
+            self.root.destroy()
         self.root.update()
 
 # Test cases

@@ -3,10 +3,19 @@ class Table:
         self.X_ICON = 'X'
         self.O_ICON = 'O'
         self.CURRENT_PLAYER = self.X_ICON
+        self.OPOSITE_PLAYER = self.O_ICON
         self.spaces = [[None for _ in range(3)] for _ in range(3)]
         
     def __str__(self) -> str:
         return str(self.spaces)
+    
+    def change_player(self) -> None:
+        if self.CURRENT_PLAYER == self.X_ICON:
+            self.CURRENT_PLAYER = self.O_ICON
+            self.OPOSITE_PLAYER = self.X_ICON
+        else:
+            self.CURRENT_PLAYER = self.X_ICON
+            self.OPOSITE_PLAYER = self.O_ICON
     
     def play(self, x, y) -> None:
         '''
@@ -19,8 +28,7 @@ class Table:
         if self.spaces[x][y] != None: return
         else:
             self.spaces[x][y] = self.CURRENT_PLAYER
-            if self.CURRENT_PLAYER == self.X_ICON: self.CURRENT_PLAYER = self.O_ICON
-            else: self.CURRENT_PLAYER = self.X_ICON
+            self.change_player()
     
     def check_playable_condition(self) -> bool:
         '''
@@ -70,11 +78,10 @@ class Table:
         Check if there is a win (all conditions)
         '''
         winner = 'Winner player: '
-        for i in range(3):
-            if self.check_rows(): return winner + str(self.spaces[i][0]) # Horizontal check
-            if self.check_columns(): return winner + str(self.spaces[0][i])# Vertical check
-        if self.check_diagonal_down(): return winner + str(self.spaces[0][0]) # Diagonal down check
-        elif self.check_diagonal_up(): return winner + str(self.spaces[0][2]) # Diagonal up check
+        if self.check_rows(): return winner + self.OPOSITE_PLAYER # Horizontal check
+        elif self.check_columns(): return winner + self.OPOSITE_PLAYER # Vertical check
+        elif self.check_diagonal_down(): return winner + self.OPOSITE_PLAYER # Diagonal down check
+        elif self.check_diagonal_up(): return winner + self.OPOSITE_PLAYER # Diagonal up check
         elif self.check_playable_condition(): return None # Game continues
         else: return 'Draw'
 
@@ -84,9 +91,9 @@ if __name__ == '__main__':
     op = 0
     match op:
         case 0: # Horizontal win
-            t.spaces[2][0] = t.O_ICON
-            t.spaces[2][1] = t.O_ICON
-            t.spaces[2][2] = t.O_ICON
+            t.spaces[1][0] = t.O_ICON
+            t.spaces[1][1] = t.O_ICON
+            t.spaces[1][2] = t.O_ICON
         case 1: # Vertical win
             t.spaces[0][0] = t.O_ICON
             t.spaces[1][0] = t.O_ICON
